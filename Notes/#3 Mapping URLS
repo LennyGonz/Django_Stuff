@@ -1,0 +1,45 @@
+There are several ways of URL mappings
+
+Method 1: This was a very direct mapping from the views.py to the urls.py
+
+** NOW we're going to change it up by using the ***include()*** function from django.conf.urls
+  ^
+  The include function allows us to look for a match with regular expressions and linik back to our application's own urls.py file
+  We have to manually add in this urls.py file because when we start our application it doesn't automatically create one for your
+
+1) so when in the PROJECT'S urls.py file we go to libraries and add: from django.conf.urls import include
+2) then in urlpatterns: [ ... url(r'^first_app/', include('first_app.urls')), ... ]
+   ^
+   this would allow us to look for any url that has the pattern: www.domainname.com/first_app/...
+
+   If we match that pattern, the include() function basically tells django to go look at the urls.py file inside of first_app
+   folder, not the urls.py file that's inside the project folder.
+
+********* Why would we use this method? This is just a way to keep the PROJECT'S url.py file clean and modular instead of cluttered.
+          Therefore we set the reference to the APP, instead of listing them all in the MAIN URLS
+
+
+SO using first_app as practice
+
+1) go to the project's urls.py and we need to activate the **include** library so we add: *from django.conf.urls import include*
+
+2) then in urlpatterns we add: url(r'^first_app/',include('first_app.urls')),
+
+** so we have linked them for now **
+
+3) we go to the APPLICATION folder, in this case first_app, and create a new file and call it: urls.py
+
+4) Then make it similar to the project's urls.py file and add 2 libraries:
+from django.conf.urls import url
+from first_app import views
+
+5) then in urlpatterns we add: urlpatterns = [ url(r'^$',views.index,name='index'), ]
+
+6) we run the server, everything should be working and to verify we go to the url and behind the backslash of c we type first_app
+  ** we should still see "Hello, World!"
+
+7) And just so we see how this works, if we go back to the project's url.py file
+in this line: url(r'^first_app/',include('first_app.urls')), **if we change it to**
+              url(r'^hello_world/',include('first_app.urls')),
+
+then run the server again: http://127.0.0.1:8000/hello_world --> again we should still see "Hello World"

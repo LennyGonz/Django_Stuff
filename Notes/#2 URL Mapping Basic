@@ -1,0 +1,45 @@
+Going into settings.py found in the project folder, the practice case first_project
+
+There is a list called INSTALLED_APPS =[...] --> in this list we add our application: first_app
+
+so it'll look like INSTALLED_APPS[
+'django. etc',
+'django. etc',
+.            ,
+.            ,
+'first_app'
+]
+
+***            ***
+
+Now we go to views.py
+
+it says right at the top:
+from django.shortcuts import render
+**WE ADD : **
+from django.http import HttpResponse
+
+now we add the following function:
+
+def index(request):
+  return HttpResponse("Hello World!")
+
+********* each view in this application is going to exist within that views.py file as its own individual function
+          In this instance we just created ONE view called INDEX with that index function
+
+******** each view is going to take in AT LEAST -- ONE ARGUMENT --
+And for that HTTP request object, since it lives inside that Django HTTP module. By CONVENTION
+we call the argument request -- referencing line 24 -- BUT AGAIN YOU CAN CALL IT WHATEVER YOU WANT ---> DOESNT MATTER WHAT YOU CALL IT
+
+******** each view must return an HttpResponse object --> in this example it's returning "Hello World!" -- line 25
+
+
+
+So in summation
+1) go to settings.py and add the new app we created --> practice version first_app
+2) go to views.py add the necessary libraries then create the index function and pass http response
+3) go to urls.py add the views.py file from the correct app folder i.e from first_app import views
+4) while in the urls.py file go to urlspattern dictionary and add url(r'^$',views.index,name='index')
+5) Bam we have officially connected the app
+
+******** this is called url mapping AND THIS IS **ONE** WAY of doing url mapping

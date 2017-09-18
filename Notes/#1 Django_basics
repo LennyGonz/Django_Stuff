@@ -1,0 +1,54 @@
+** Starting a web application **
+
+1) mkdir My_Django_Stuff (makes a folder)
+
+2) source activate *virtual environment name*
+
+3)django-admin startproject *name of project*
+
+4) python manage.py runserver (this runs the file you're working on)
+
+5) To create an actual django web application within your project you do:
+    python manage.py startapp *insert web app name*
+
+6) when you're done with project do: source deactivate *name of virtual environment*
+_____________________________________________________________________________________________
+|--------------------------------------------------------------------------------------------|
+|                                                                                            |
+|********************************** Default Files explained *********************************|
+|                                                                                            |
+|--------------------------------------------------------------------------------------------|
+|____________________________________________________________________________________________|
+1) __init__.py is a blank python script, that is treated as a package
+
+2) settings.py is where we store all the project settings
+
+3) urls.py is a python script that will store all the url patterns for our project
+         ^
+         ^ --> Basically stores all the different pages of the web application
+
+4) wsgi.py is a python script that acts as the web server gateway interface
+        ^
+        ^ --> Basically helps us deploy our web application to production
+
+5) manage.py is associated with the commands we used to build our web application
+_______________________________________________________________________________________________
+|---------------------------------------------------------------------------------------------|
+|                                                                                             |
+|****************************** Default web app files explained ******************************|
+|                                                                                             |
+|---------------------------------------------------------------------------------------------|
+|_____________________________________________________________________________________________|
+1) __init__.py is a blank script that allows it to be treated as a package
+
+2) admin.py is where you register your models so they can be used with django's admin interface
+
+3) apps.py is where you place application specific configurations
+
+4) models.py is where you store the application's data models
+
+5) tests.py is where you store test functions to test the code
+
+6) views.py is where you have functions that handle REQUESTS and RETURN responses
+
+7) Migrations folder stores database specific information as it relates to the models

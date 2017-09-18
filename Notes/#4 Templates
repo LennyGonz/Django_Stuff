@@ -1,0 +1,86 @@
+Templates will contain the static parts of an HTML page (parts that are always the same)
+*it's basically the skeleton of the page
+
+Then we have template tags --> {{ *template variable* }}
+
+** When making the templates we need to let Django know about templates by editing the DIR key **
+** inside the templates dictionary in the settings.py file                                     **
+
+In order to make every django project transferable from system to system we need to tweak the DIR path
+^
+^
+so we simply add a python's os module
+
+---- The os module will be feed into the path to the DIR keys inside of the templates dictonary
+---- once we've done that we can create an HTML file called index.html inside of the templates/first_app directory
+
+We need to use a render() function and place it into our original index() function inside of our views.py file
+-----------------------------------------------------------------------------------------------------------------
+quick note --> when creating an HTML page, type HTML and enter to create an HTML skeleton
+-----------------------------------------------------------------------------------------------------------------
+Using first_project as an example again
+
+1) The overarching folder, first_project, right-click and make a new folder : templates
+2) Then go to the project's settings.py file and join the OVERALL DIRECTORY to new addition: templates folder
+   ---------------> we're adding a new folder to the directory so we use the command:
+  os.path.join(BASE_DIR,"templates")
+3) we set the above command equal to TEMPLATE_DIR as so : TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
+4) Still in the settings.py file we go to Templates dictionary
+   Should look as so:
+   TEMPLATES = [
+       {
+           'BACKEND': 'django.template.backends.django.DjangoTemplates',
+           'DIRS': [TEMPLATE_DIR],
+           'APP_DIRS': True,
+           'OPTIONS': {
+               'context_processors': [
+                   'django.template.context_processors.debug',
+                   'django.template.context_processors.request',
+                   'django.contrib.auth.context_processors.auth',
+                   'django.contrib.messages.context_processors.messages',
+               ],
+           },
+       },
+   ]
+
+5) In the templates folder we create an HTML file: index.html (type HTML and hit enter)
+
+6) in the body create an h1 tag and insert Hello this is index.html and enter the template tag with a variable insert_me
+
+7) Now we go to the views.py file inside the web application (first_app) and use the render function that comes with the library
+   from django.shortcuts import render
+
+8) then we create a dictionary and enter the template variable as so:
+   my_dict = {'insert_me':"Hello I am views.py ! "}
+
+9) then we return render and enter the correct parameters as so:
+   return render(request,'index.html',context=my_dict)
+
+10) enter the web application in the terminal
+
+11) We can have many web applications for 1 project, so in the templates folder create sub-folders with the same name as the web applications
+    to keep track of which HTML pages belong to which web application
+
+12) ********** REMEMBER TO ALWAYS SAVE FILES AFTER YOU'RE DONE FIXING OR ELSE THE CHANGES WON'T SHOW UNTIL!!!! **********
+
+
+
+**************************************************************************************************************************************
+                                                         EXPLANATION
+**************************************************************************************************************************************
+
+This is from views.py:
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+def index(request):
+    my_dict = {'insert_me':"Hello I am from first_app/index.html ! "}
+    return render(request,'first_app/index.html',context=my_dict)
+
+The dictionary creates the actual content that we want to inject into that index.html and it takes in the key --insert_me--
+
+In the render we pass in the request, from line 77 def index(request
+         then we pass in the HTML
+         then for the context we pass in the dictionary, AND then it'll read in the keys when it actually wants to inject stuff into index.html 
