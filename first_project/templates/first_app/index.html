@@ -1,11 +1,44 @@
 <!DOCTYPE html>
+{% load staticfiles %}
+
 <html>
   <head>
     <meta charset="utf-8">
-    <title> First App </title>
+    <title>  Desktop Background Page </title>
+    <link rel="stylesheet" href= "{% static "first_app_css/mystyle.css" %}" >
   </head>
   <body>
-    <h1>Hello this is index.html!</h1>
+    <h1> Monica bang me </h1>
     {{ insert_me }}
+
+    <h1> This is my desktop background picture </h1>
+
+    <img src="{% static "first_app_images/desktop_background.jpg" %}" alt="Uh Oh, didn't show">
+
+    <h2> Here are your access_records : </h2>
+
+    <div class="djangotwo">
+
+      {% if access_records %} <!-- if we actually have the key **access_records** then do some stuff and we can find this key and its functionality in views.py -->
+      <table>
+        <thead>
+          <th>Site Name</th>
+          <th>Date Accessed</th>
+        </thead>
+
+        {% for acc in access_records %}
+        <tr>
+          <td>{{ acc.name }}</td>
+          <td> {{ acc.date }}</td>
+        </tr>
+        {% endfor %}
+
+      </table>
+      {% else %}
+      <p>No Access Records found !</p>
+      {% endif %}
+
+    </div>
+
   </body>
 </html>

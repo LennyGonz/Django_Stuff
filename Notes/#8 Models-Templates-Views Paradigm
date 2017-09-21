@@ -1,0 +1,24 @@
+Django operates on what is known as: Models-Templates-Views (MTV)
+
+MTV encompasses the idea of how to connect: models-templates-views
+
+There are basic steps to achieve the goal of serving dynamic content to a user based off the connection of the MTV
+
+
+1) In the views.py file we import any models we will need to use
+
+2) Use the view to query the model for data that we will need
+
+3) Pass reults from the model to the template
+
+4) Edit the template so that it is ready to accept and display the data from the model
+
+5) Map a URL to the view.
+
+We can practice this methodology by changing what we view on the index page
+
+********************************************************************************
+
+SO we're going to create a table, that will display all the webpages and access records from the AccessRecord database we created and populated
+
+We will use template tagging to connect the model to the html page

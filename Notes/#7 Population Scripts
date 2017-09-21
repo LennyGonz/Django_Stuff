@@ -1,0 +1,83 @@
+Fake data is provided by the Faker python library which we downloaded using
+pip install Faker
+
+faker.readthedocs.io ==> teaches you how to use the Faker library
+
+1) In the top-level project folder, we right click and create a new folder
+   For example purposes we're going to call it populate_first_app.py
+
+2) Then we're going to import:
+
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','first_project.settings')
+
+-- This configures this settings for the project
+   We need to do this before we start manipulating the actual models
+
+3) Then we're going to import:
+
+import django
+django.setup()
+
+-- This should setup/configure the project settings
+
+4) Then we're going to do our #Fake population scripts
+
+import random
+from faker import Faker #This is how they decided to use their library
+from first_app.models import AccessRecord, Webpage, Topic #This connects our models
+
+5) We create an instance of that Faker object:
+
+   fakegen = Faker()
+   #various topics for different websites:
+   topics = ['Search','Social', 'Marketplace', 'News', 'Games']
+
+6) Then we create a function that can add topics:
+
+#smiliar to shell commands
+
+def add_topic():
+  t = Topic.objects.get_or_create(top_name=random.choice(topics))[0]
+
+*** HOW get_or_create WORKS ***
+  --> this is going to return a tuple and I want to grab the first object in that tuple, which is that reference to the model instance, which is why we add the [0]
+
+  t.save()
+  return t
+-- End add topic function
+
+7) More complicated ways for populating AccessRecord and Webpage
+
+def populate(N=5):
+
+
+    for entry in range(N):
+        #get the topic for the entry
+        top = add_topic()
+
+        #create the fake data for that entry
+        fake_url = fakegen.url()
+        fake_date = fakegen.date()
+        fake_name = fakegen.company()
+                    # ^ these commands are given at the website faker.readthedocs.io
+
+        #Create the new webpage entry
+        webpg = Webpage.objects.get_or_create(topic = top, url=fake_url, name=fake_name)[0]
+
+        #create a fake access record for that Webpage
+        acc_rec = AccessRecord.objects.get_or_create(name = webpg, date = fake_date)[0]
+
+
+8) Testing our script:
+
+if __name__ == '__main__':
+    print("populating script!")
+    populate(20)
+    print("populating complete")
+
+9) We check to see if it working we enter: python populate_first_app.py
+   This should populate the database
+
+10) Then we go to the admin interface, and at webpage we can see all our websites
+    and see the acessdates of each webpage

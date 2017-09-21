@@ -1,0 +1,41 @@
+Static Files:
+
+** Static media files are for returning videos/photos etc **
+
+1) We will create a new directory inside of the project called: STATIC called images
+
+ --->   To test that this all worked you can go to 127.0.0.1:8000/static/images/pict.jpg
+
+ --->  BUT before all this we need a template tag
+*** To do this inside an HTML file we add in a few specific tags: {% load staticfiles %} ***
+*** Then we want to insert the image with an HTML <img src= > style tag using:           ***
+*** <img src={% static "images/pic.jpg" %} />                                            ***ti
+
+
+********************************************************************************
+Inserting Static Files:
+
+1) Create a static directory in the project
+
+2) Create 2 subfolders:
+                       1) *app_name*_css
+                       2) *app_name*_images
+
+3) Link this new directory in settings.py
+   STATIC_DIR = os.path.join(BASE_DIR, "static")
+
+4) Underneath LANGUAGE_CODE, is ==> STATIC_URL = '/static/' --if not add import
+
+   Underneath that create a new dictionary:  STATICFILES_DIRS = [ STATIC_DIR,]
+
+5) Now in the HTML file we're working on we add, under <!DOCTYPE html>, the following:
+                                                                                      {% load staticfiles %}
+
+6) Then we add our template tags : <img src="{% static "first_app_images/desktop_background.jpg" %}" alt="*insert caption">
+                                                        |  everything within the bars changes  |
+
+6b) If we want to link a css page or something else, within the head tags we insert:
+
+   <link rel="stylesheet" href= "{% static "first_app_css/mystyle.css" %}" >
+                                    |everything within the bars changes|
+********************************************************************************
