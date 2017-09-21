@@ -1,0 +1,19 @@
+Challenge:
+
+1) Add a new model called User and have these fields:
+    -- first name
+    -- last name
+    -- email
+
+2) Make sure to make the migrations
+
+3) Then create a script that will populate your database with fake users
+
+4) Then confirm the population through the Admin interface
+
+5) then create a view for your website for the domain extension /users
+
+6) This /users page will be an HTML list of the user names and emails
+   -- You will use template tags to generate this content from the User Model
+
+7) Remember to change your urls.py files to deal the changes to the /users extension
