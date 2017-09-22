@@ -7,13 +7,133 @@ Challenge:
 
 2) Make sure to make the migrations
 
+***********************************************************************************************************************
+So we're going to make sure everything is connected in terms of the template & static directories, which we would connect in settings.py
+
+1) We go to models.py file to create a NEW MODEL CALLED User
+
+    class User(models.Model):                                         ---> "inhert models.Model" what exactly does this do?
+        first_name = models.CharField(max_length = 128)               ---> why is it models.etc ?
+        last_name = models.CharField(max_length = 128)
+        email = models.EmailField(max_length = 264, unique = True)   ---> what exactly are CharField and EmailField ?  We need to make sure our emails are unique, hence unique = True
+
+2) We go to views to import our models... that way we can use it
+
+from appTwo.models import User
+
+def index(request):                                     ---> this creates the main page, what we see when we load the webapp
+    return render(request,'appTwo/index.html)
+
+def users(request):                                    ---> this creates the users page
+
+    user_list = User.objects.order_by('first_name')    ---> this sorts the users by first name, we store the sorted list in user_dict
+    user_dict = {'users':user_list}                    ---> this is for functionality, we display the users
+    return render(request,'appTwo/users.html', context = user_dict)
+
+3) Create the urls file, if you already created it then proceed:
+
+    from django.conf.urls import url
+    from appTwo import views
+
+    urlpatterns = [
+    url(r'^$',views.help,name='users')
+    ]
+
+4) Edit urls in the top level project's url.py file
+
+    url(r'^users/',include('appTwo.urls')),
+
+    * We add this to the urlpatterns list
+
+5) We check to see if everything's working by migrating the models to the actual database
+
+    - python manage.py migrate
+    - python manage.py makemigrations 'appTwo'
+    - python manage.py migrate
+
+6) Then we go to the admin.py file
+
+    - from appTwo.models import User
+
+    - admin.site.register(User)
+
+7) Create a superuser:
+
+    - python manage.py createsuperuser
+
+**** Up until this point everything should work, we can log into the admin interface, then under Site administration we should see:
+     APPTWO
+     Users
+****
+
+***********************************************************************************************************************
+
 3) Then create a script that will populate your database with fake users
 
 4) Then confirm the population through the Admin interface
 
 5) then create a view for your website for the domain extension /users
+***********************************************************************************************************************
+
+1) Under ProTwo we create a new file populate_users.py
+    import os
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE",'ProTwo.settings')
+
+    import django #this is what actually allows us to go in and populate the database
+    django.setup()
+
+    from appTwo.models import User
+    from faker import Faker
+
+    fakegen = Faker()  # we're creating an object here
+
+    def populate(N=5):
+        for entry in range(N):
+            fake_name = fakegen.name().split()
+            fake_first_name = fake_name[0] #because in the line above we split the name
+            fake_last_name = fake_name[1]
+            fake_email = fakegen.email()
+
+            #new entry
+            user = User.object.get_or_create(first_name = fake_first_name,last_name = fake_last_name,email = fake_email)[0]
+
+    if __name__ == '__main__':
+        print("POPULATING DATABASES")
+        populate(10)
+        print('complete!')
+
+***********************************************************************************************************************
 
 6) This /users page will be an HTML list of the user names and emails
    -- You will use template tags to generate this content from the User Model
+***********************************************************************************************************************
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User's Page</title>
+    </head>
+    <body>
+
+    <h1> Here are your users for AppTwo: </h1>
+    {% if users %}
+
+        <ol>
+        {% for person in users %}
+         <li> User Info </li>
+            <ul>
+                <li> First Name: {{ person.first_name }} </li>
+                <li> Last Name: {{person.last_name }} </li>
+                <li> Email: {{ person.email }}</li>
+                <li> </li>
+            </ul>
+        {% endfor %}
+        </ol>
+    </body>
+    </html>
+
+
+
+***********************************************************************************************************************
 
 7) Remember to change your urls.py files to deal the changes to the /users extension
