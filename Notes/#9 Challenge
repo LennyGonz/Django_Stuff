@@ -1,5 +1,36 @@
 Challenge:
 
+***********************************************************************************************************************
+Creating Project Files:
+
+1) activate virtual environment:  source activate *insert virtual environment name*
+
+2) Under the correct directory we create a project: django-admin startproject *insert project name*
+
+3) CD into the project folder --> create the web application: python manage.py startapp *insert web application name*
+
+4) Add a templates folder --> create another folder for the specific web application we're making
+
+5) Go to settings.py folder to let Django know where the templates are:
+
+  import os
+  BASE_DIR = ...
+  TEMPLATE_DIR = os.path.join(BASE_DIR,"templates") *this links the template folder we just made
+
+Then go to the templates list and add the new directory
+
+  'DIRS' : [TEMPLATE_DIR],
+
+Then go to installed apps, we insert the name of the app we just made to let DJANGO KNOW WE'RE MAKING A NEW APP
+
+  INSTALLED_APPS = [...
+                    ...
+                    ...
+                    "*insert web application name*" ]
+
+***********************************************************************************************************************
+Objective:
+
 1) Add a new model called User and have these fields:
     -- first name
     -- last name
@@ -8,6 +39,8 @@ Challenge:
 2) Make sure to make the migrations
 
 ***********************************************************************************************************************
+Solution:
+
 So we're going to make sure everything is connected in terms of the template & static directories, which we would connect in settings.py
 
 1) We go to models.py file to create a NEW MODEL CALLED User
@@ -67,6 +100,7 @@ def users(request):                                    ---> this creates the use
 ****
 
 ***********************************************************************************************************************
+Objective:
 
 3) Then create a script that will populate your database with fake users
 
@@ -74,6 +108,7 @@ def users(request):                                    ---> this creates the use
 
 5) then create a view for your website for the domain extension /users
 ***********************************************************************************************************************
+Solution:
 
 1) Under ProTwo we create a new file populate_users.py
     import os
@@ -103,10 +138,13 @@ def users(request):                                    ---> this creates the use
         print('complete!')
 
 ***********************************************************************************************************************
+Objective:
 
 6) This /users page will be an HTML list of the user names and emails
    -- You will use template tags to generate this content from the User Model
 ***********************************************************************************************************************
+Solution:
+
     <!DOCTYPE html>
     <html lang="en">
     <head>
