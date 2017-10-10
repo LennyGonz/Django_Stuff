@@ -1,7 +1,7 @@
 """ProTwo URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
+    https://docs.djangoproject.com/en/1.10/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -21,6 +21,5 @@ from appTwo import views
 urlpatterns = [
     url(r'^$',views.index,name='index'),
     url(r'^users/',include('appTwo.urls')),
-    url(r'^help/',include('appTwo.urls')),
-    url(r'^users/',include('appTwo.urls')),
+    url(r'^admin/', admin.site.urls),
 ]
