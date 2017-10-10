@@ -63,7 +63,7 @@ def users(request):                                    ---> this creates the use
     user_dict = {'users':user_list}                    ---> this is for functionality, we display the users
     return render(request,'appTwo/users.html', context = user_dict)
 
-3) Create the urls file, if you already created it then proceed:
+3) Create the urls file INSIDE THE APP-FOLDER (appTwo), if you already created it then proceed:
 
     from django.conf.urls import url
     from appTwo import views
