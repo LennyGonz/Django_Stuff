@@ -1,0 +1,105 @@
+The way our basic form was set up is open to users and "bots"
+Django has built-in validators you can use to validate your forms or check for bots
+
+* Everything we're going to do is going to be inside forms.py file
+
+* Everything we're going to do is:
+    1) Adding a check for empty fields
+    2) Adding a check for a "bot"
+    3) Adding a clean method for the entire form
+
+**************************************************
+
+So far we have this:
+
+from django import forms
+
+class FormName(forms.Form):
+    #form attributes
+    name = forms.CharField()
+    email = forms.EmailField()
+    text = forms.CharField(widget=forms.Textarea)
+
+**************************************************
+
+* Hidden field, is what we'll use to catch bots
+
+we're going to create a field:
+
+botcatcher = forms.Charfield(required = False             --> this won't show up on the GUI, it'll operate in the background
+                             widget = forms.HiddenInput)
+
+* In order to catch a bot, you need to validate the input
+* So within the class indent we go:
+
+    def clean_botcatcher(self):
+        botcatcher = self.cleaned_data['botcatcher']
+        if len(botcatcher) > 0:
+            raise forms.ValidationError(" GOTCHA BOT! ")
+        return botcatacher
+
+********************************************************************************
+NOW we're going to learn to use BUILT-IN VALIDATORS, SO WE DONT HAVE TO WRITE IT
+
+We have this:
+
+from django import forms
+from django.core import validators  (add this)
+class FormName(forms.Form):
+    #form attributes
+    name = forms.CharField()
+    email = forms.EmailField()
+    text = forms.CharField(widget=forms.Textarea)
+    botcatcher = forms.CharField(required = False,
+                                 widget = forms.HiddenInput,
+                                 validators = [validators.MaxLengthValidator(0)])
+
+
+**********************************************************************************
+Now we're going to make our own validators
+
+So to make our own custom validators ==> we want to make sure the NAMES inserted into the name field starts with a Z
+
+We want to make sure the names start with Z (letter is arbitrary):
+
+starting from the point we left off above:
+
+
+from django import forms
+from django.core import validators
+
+def check_for_z(value): (value is going to act as a validator)               *We created this function*
+    if value[0] != 'z'
+        raise forms.ValidationError("name needs to start with z")
+
+class FormName(forms.Form):
+    #form attributes
+    name = forms.CharField(validators=[check_for_z]) *insert: validators=[check_for_z *
+    email = forms.EmailField()
+    text = forms.CharField(widget=forms.Textarea)
+    botcatcher = forms.CharField(required = False,
+                                 widget = forms.HiddenInput,
+                                 validators = [validators.MaxLengthValidator(0)])
+
+*************************************************************************************
+Adding a clean method for the entire form
+
+starting from the beginning:
+
+from django import forms
+from django.core import validators
+
+class FormName(forms.Form):
+    #form attributes
+    name = forms.CharField()
+    email = forms.EmailField()
+    verify_emal = forms.EmailField(label= 'Enter your email again: ') (added this)
+    text = forms.CharField(widget=forms.Textarea)
+
+    def clean(self):  *single clean method for all the form at once --- (added this function)
+        all_clean_data = super().clean()    super().clean() is going to return all the clean data for the entire form, so you can deal with it all at once
+        email = all_clean_data['email']  * email is equal to all that clean data -- then with bracket notation grab the email field from the from
+        vmail = all_clean_data['verify_email'] *grab verify email and set it equal to the all clean data and grab the verify email key *using bracket notation*
+
+        if email != vmail: *if email is not equal to verify email, raise an error!
+            raise forms.ValidationError("Make sure emails match!")

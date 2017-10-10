@@ -43,14 +43,14 @@ Solution:
 
 So we're going to make sure everything is connected in terms of the template & static directories, which we would connect in settings.py
 
-1) We go to models.py file to create a NEW MODEL CALLED User
+1) We go to models.py file (inside our app folder (appTwo) ) to create a NEW MODEL CALLED User
 
     class User(models.Model):                                         ---> "inhert models.Model" what exactly does this do?
         first_name = models.CharField(max_length = 128)               ---> why is it models.etc ?
         last_name = models.CharField(max_length = 128)
         email = models.EmailField(max_length = 264, unique = True)   ---> what exactly are CharField and EmailField ?  We need to make sure our emails are unique, hence unique = True
 
-2) We go to views to import our models... that way we can use it
+2) We go to views.py file (inside our app folder (appTwo) ) to import our models... that way we can use it
 
 from appTwo.models import User
 

@@ -1,0 +1,84 @@
+ We've seen how we can use Django Forms to grab information from the user and then do something with it
+
+So far we've only printed out that information (inside the terminal), BUT what if we wanted to save it to a model?
+
+Example) User is signing up for an account to something
+
+Django makes accepting form input and passing it to a model very simple
+Instead of inherting from the forms.Forms class, we will user forms.ModelForm in our forms.py file
+
+1) This helper class allows us to CREATE A FORM ***from*** a PRE-EXISTING MODEL
+2) We then add an inline class --> called Meta
+3) This Meta class provides information connecting the model to the form (just a class within another class)
+
+example of what we would see in a forms.py file??:
+
+from django import forms
+from myapp.models import MyModel
+
+class MyNewForm(forms.ModelForm):
+    #form Fields go here with validators parameters
+
+    class Meta: (this is an inline class)
+        model = MyModel
+        fields = #Let's see the options!
+************************************************************************************************************************
+Option #1: Set it to "__all__"
+
+from django import forms
+from myapp.models import MyModel
+
+class MyNewForm(forms.ModelForm):
+    #form Fields go here with validators parameters
+
+    class Meta: (this is an inline class)
+        model = MyModel
+        fields = "__all__"  --> this grabs all the fields from the model and WE'RE GOING TO PLACE THEM INTO THE FORM
+
+************************************************************************************************************************
+Option #2: excludes certain fields
+
+from django import forms
+from myapp.models import MyModel
+
+class MyNewForm(forms.ModelForm):
+    #form Fields go here with validators parameters
+
+    class Meta: (this is an inline class)
+        model = MyModel
+        exclude = ["field1", "field2"] --> Here we are specifying what fields we actually want to exlude
+                                       --> So we can just pass a list of the fields we want to exclude
+
+************************************************************************************************************************
+Option #3: List included fields
+
+from django import forms
+from myapp.models import MyModel
+
+class MyNewForm(forms.ModelForm):
+    #form Fields go here with validators parameters
+
+    class Meta: (this is an inline class)
+        model = MyModel
+        include = ("field1", "field2") --> We list the fields we want to include
+
+Check out the documentation for more discussion on connecting fields in the form to fields in the model
+
+
+We're going to TRY adding a Model Form to our proTwo from Django Level Two
+**************************************************************************************************************************************
+proTwo had a single user class in its models, we will connect it to a form allows users to register their names and emails to the site
+**************************************************************************************************************************************
+
+Excerises:
+
+1) Create a ModelForm in forms.py
+
+2) Connect the form in the template
+
+3) Edit views.py to show the form
+
+4) Figure out how to .save() the data
+
+5) Verify the model is admin registered
+
